@@ -28,7 +28,7 @@ class Game
   def display_board
     all_guesses.each_with_index do |elem, index|
       if index.even?
-        puts "Guess - " + elem.to_s + " | Feedback - #{all_guesses[index + 1].to_s}"
+        puts "Guess - #{all_guesses[index].to_s} | Feedback - #{all_guesses[index + 1].to_s}"
       end
     end
   end
@@ -44,7 +44,7 @@ class Game
   def check_guess(guess)
     if guess == secret_code
       puts 'YOU WIN!'
-      return
+      return true
     end
     feedback = []
     guess.each_with_index do |elem, i|
@@ -57,6 +57,21 @@ class Game
       end
     end
     all_guesses.push(feedback)
+    return false
+  end
+
+  def play
+    until self.turns.zero?
+      display_board
+      puts turns
+      is_game_over = check_guess(guess_secret_code)
+      if is_game_over
+        puts 'YOU WIN!'
+        break
+      else
+        self.turns -= 1
+      end
+    end
   end
 
   private
@@ -87,3 +102,6 @@ class Game
     secret_code
   end
 end
+
+game = Game.new
+game.play
