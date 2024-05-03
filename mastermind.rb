@@ -32,6 +32,24 @@ class Game
     user_guess
   end
 
+  def check_guess(guess)
+    if guess == secret_code
+      puts 'YOU WIN!'
+      return
+    end
+    feedback = []
+    guess.each_with_index do |elem, i|
+      if elem.color == secret_code[i].color
+        feedback.push(Peg.new('black'))
+      elsif secret_code.any? {|peg| peg.color == elem.color }
+        feedback.push(Peg.new('white'))
+      else
+        feedback.push(nil)
+      end
+    end
+    all_guesses.push(feedback)
+  end
+
   private
 
   def prompt_for_turns
