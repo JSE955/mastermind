@@ -1,6 +1,6 @@
 class Peg
-  CODE_COLORS = ['red', 'blue', 'green', 'yellow', 'orange', 'purple']
-  KEY_COLORS = ['black', 'white']
+  CODE_COLORS = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'].freeze
+  KEY_COLORS = ['black', 'white'].freeze
   attr_reader :color
 
   def initialize(color)
@@ -39,6 +39,3 @@ class Game
     secret_code
   end
 end
-
-game = Game.new
-p game.secret_code
