@@ -25,6 +25,15 @@ class Game
     @all_guesses = []
   end
 
+  def display_board
+    all_guesses.each_with_index do |elem, index|
+      if index.even?
+        puts "Guess - " + elem.to_s + " | Feedback - #{all_guesses[index + 1].to_s}"
+      end
+    end
+  end
+
+
   def guess_secret_code
     user_guess = []
     user_guess.push(prompt_for_code_color) until user_guess.length == 4
@@ -78,6 +87,3 @@ class Game
     secret_code
   end
 end
-
-game = Game.new
-game.guess_secret_code
