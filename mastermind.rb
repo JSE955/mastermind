@@ -37,6 +37,10 @@ class Game
   end
 
   def display_board
+    if all_guesses.empty?
+      puts 'Starting game...'
+      return
+    end
     all_guesses.each_with_index do |elem, index|
       if index.even?
         p "Guess - #{all_guesses[index].join(' ')} | Feedback - #{all_guesses[index + 1].join(' ')}"
@@ -91,6 +95,7 @@ class Game
   end
 
   def prompt_for_code_color
+    puts '--------------'
     puts "Enter Number for Peg Color - Red (1), Blue (2), Green (3), Yellow (4), Orange (5), Purple (6)"
     color = gets.chomp.to_i
     case color
