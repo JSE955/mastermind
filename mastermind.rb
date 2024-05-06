@@ -1,6 +1,7 @@
 require 'pry-byebug'
 
 class Peg
+  include Comparable
   CODE_COLORS = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'].freeze
   KEY_COLORS = ['black', 'white'].freeze
   attr_reader :color
@@ -19,6 +20,10 @@ class Peg
 
   def to_s
     color
+  end
+
+  def <=>(other)
+    color <=> other.color
   end
 end
 
@@ -39,7 +44,6 @@ class Game
     end
   end
 
-
   def guess_secret_code
     user_guess = []
     user_guess.push(prompt_for_code_color) until user_guess.length == 4
@@ -49,7 +53,6 @@ class Game
 
   def check_guess(guess)
     if guess == secret_code
-      puts 'YOU WIN!'
       return true
     end
     feedback = []
@@ -59,7 +62,7 @@ class Game
       elsif secret_code.any? {|peg| peg.color == elem.color }
         feedback.push(Peg.new('white'))
       else
-        feedback.push(nil)
+        feedback.push(Peg.new('blank'))
       end
     end
     all_guesses.push(feedback)
@@ -72,11 +75,12 @@ class Game
       is_game_over = check_guess(guess_secret_code)
       if is_game_over
         puts 'YOU WIN!'
-        break
+        return
       else
         self.turns -= 1
       end
     end
+    puts 'YOU LOSE!'
   end
 
   private
