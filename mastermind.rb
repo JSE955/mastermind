@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 class Peg
   CODE_COLORS = ['red', 'blue', 'green', 'yellow', 'orange', 'purple'].freeze
   KEY_COLORS = ['black', 'white'].freeze
@@ -14,10 +16,14 @@ class Peg
   def self.key_colors
     KEY_COLORS
   end
+
+  def to_s
+    color
+  end
 end
 
 class Game
-  attr_accessor :secret_code, :turns, :all_guesses, :guess, :feedback
+  attr_accessor :secret_code, :turns, :all_guesses, :guess
 
   def initialize
     @turns = prompt_for_turns
@@ -28,7 +34,7 @@ class Game
   def display_board
     all_guesses.each_with_index do |elem, index|
       if index.even?
-        puts "Guess - #{all_guesses[index].to_s} | Feedback - #{all_guesses[index + 1].to_s}"
+        p "Guess - #{all_guesses[index].join(' ')} | Feedback - #{all_guesses[index + 1].join(' ')}"
       end
     end
   end
@@ -63,7 +69,6 @@ class Game
   def play
     until self.turns.zero?
       display_board
-      puts turns
       is_game_over = check_guess(guess_secret_code)
       if is_game_over
         puts 'YOU WIN!'
